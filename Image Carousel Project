@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Image Carousel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+    .carousel {
+      position: relative;
+      width: 400px;
+      height: 250px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slides img {
+      width: 400px;
+      height: 250px;
+      object-fit: cover;
+    }
+    .buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    button {
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    button:hover {
+      background: rgba(0,0,0,0.7);
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel">
+  <div class="slides">
+    <img src="https://picsum.photos/400/250?random=1" alt="Image 1">
+    <img src="https://picsum.photos/400/250?random=2" alt="Image 2">
+    <img src="https://picsum.photos/400/250?random=3" alt="Image 3">
+  </div>
+  <div class="buttons">
+    <button id="prev">&#10094;</button>
+    <button id="next">&#10095;</button>
+  </div>
+</div>
+
+<script>
+  const slides = document.querySelector('.slides');
+  const images = document.querySelectorAll('.slides img');
+  const totalImages = images.length;
+
+  let index = 0;
+
+  document.getElementById('next').addEventListener('click', () => {
+    index = (index + 1) % totalImages;
+    updateCarousel();
+  });
+
+  document.getElementById('prev').addEventListener('click', () => {
+    index = (index - 1 + totalImages) % totalImages;
+    updateCarousel();
+  });
+
+  function updateCarousel() {
+    slides.style.transform = `translateX(-${index * 400}px)`;
+  }
+</script>
+
+</body>
+</html>
