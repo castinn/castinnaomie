@@ -3,34 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Image Carousel</title>
+  <title>Image Carousel</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #f4f4f4;
+      background-color: #f4f4f4;
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
+
     .carousel {
       position: relative;
-      width: 400px;
-      height: 250px;
+      width: 500px;
+      height: 300px;
       overflow: hidden;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+
     .slides {
       display: flex;
+      width: 100%;
+      height: 100%;
       transition: transform 0.5s ease-in-out;
     }
+
     .slides img {
-      width: 400px;
-      height: 250px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
-    .buttons {
+
+    .nav-buttons {
       position: absolute;
       top: 50%;
       width: 100%;
@@ -38,52 +45,54 @@
       justify-content: space-between;
       transform: translateY(-50%);
     }
-    button {
-      background: rgba(0,0,0,0.5);
-      color: white;
+
+    .nav-buttons button {
+      background-color: rgba(0,0,0,0.5);
       border: none;
+      color: #fff;
+      font-size: 18px;
       padding: 10px;
       cursor: pointer;
       border-radius: 50%;
+      transition: background 0.3s;
     }
-    button:hover {
-      background: rgba(0,0,0,0.7);
+
+    .nav-buttons button:hover {
+      background-color: rgba(0,0,0,0.8);
     }
   </style>
 </head>
 <body>
 
 <div class="carousel">
-  <div class="slides">
-    <img src="https://picsum.photos/400/250?random=1" alt="Image 1">
-    <img src="https://picsum.photos/400/250?random=2" alt="Image 2">
-    <img src="https://picsum.photos/400/250?random=3" alt="Image 3">
+  <div class="slides" id="slides">
+    <img src="https://picsum.photos/500/300?random=1" alt="Slide 1">
+    <img src="https://picsum.photos/500/300?random=2" alt="Slide 2">
+    <img src="https://picsum.photos/500/300?random=3" alt="Slide 3">
   </div>
-  <div class="buttons">
-    <button id="prev">&#10094;</button>
-    <button id="next">&#10095;</button>
+  <div class="nav-buttons">
+    <button onclick="prevSlide()">&#10094;</button>
+    <button onclick="nextSlide()">&#10095;</button>
   </div>
 </div>
 
 <script>
-  const slides = document.querySelector('.slides');
-  const images = document.querySelectorAll('.slides img');
-  const totalImages = images.length;
+  const slides = document.getElementById('slides');
+  const totalSlides = slides.children.length;
+  let currentIndex = 0;
 
-  let index = 0;
+  function updateSlide() {
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
 
-  document.getElementById('next').addEventListener('click', () => {
-    index = (index + 1) % totalImages;
-    updateCarousel();
-  });
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    updateSlide();
+  }
 
-  document.getElementById('prev').addEventListener('click', () => {
-    index = (index - 1 + totalImages) % totalImages;
-    updateCarousel();
-  });
-
-  function updateCarousel() {
-    slides.style.transform = `translateX(-${index * 400}px)`;
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+    updateSlide();
   }
 </script>
 
