@@ -1,0 +1,31 @@
+import requests
+import datetime
+
+# Orlando, FL coordinates
+latitude = 28.54
+longitude = -81.38
+
+URL = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current_weather=true"
+
+def get_climate_data():
+    try:
+        response = requests.get(URL, timeout=10)
+        data = response.json()
+
+        if response.status_code != 200:
+            print("Error fetching data:", data)
+            return
+
+        # Extract current weather
+        weather = data["current_weather"]
+
+        print(f"🌍 Climate Data for Orlando, FL ({datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})")
+        print(f"🌡 Temperature: {weather['temperature']}°C")
+        print(f"🌬 Wind Speed: {weather['windspeed']} km/h")
+        print(f"🧭 Wind Direction: {weather['winddirection']}°")
+        print(f"⏲ Time of Reading: {weather['time']}")
+
+    except requests.exceptions.RequestException as e:
+        print("Network error:", e)
+
+get_climate_data()
